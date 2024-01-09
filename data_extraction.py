@@ -13,7 +13,7 @@ class DataExtractor:
         pass
 
     def read_rds_table(self, table_name='legacy_users'):
-        # Connect to the database
+        # Connect to the database to pull data from table name= 
         connector = DatabaseConnector()
         engine = connector.init_db_engine()
 
