@@ -99,7 +99,7 @@ class DataCleaning:
         return address
 
 
-if __name__ == "__main__":
+'''if __name__ == "__main__":
     cleaner = DataCleaning()
     cleaned_data = cleaner.clean_data()
 
@@ -109,6 +109,6 @@ if __name__ == "__main__":
     num_rows_pattern = cleaned_data.shape[0]
     print("--------")
     print(f"Number of rows matching pattern: {num_rows_pattern}")
-    cleaned_data.to_excel('output_final.xlsx', index=True)
+    cleaned_data.to_excel('output_final.xlsx', index=True)'''
 
     
