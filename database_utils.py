@@ -35,9 +35,9 @@ class DatabaseConnector:
         table_names = insp.get_table_names()
         
         # Print or return the list of table names
-        print("Tables in the database:")
-        for table_name in table_names:
-            print(table_name)
+        #print("Tables in the database:")
+        #for table_name in table_names:
+            #print(table_name)
     
     
     def upload_db(self, dataframe, table_name):
