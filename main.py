@@ -4,47 +4,63 @@ from database_utils import DatabaseConnector
 from datetime import datetime
 import pandas as pd
 
+#Uncomment the sections you want to execute based on requirements.
+
 if __name__ == "__main__":
     # Initialize the database connector
     db_connector = DatabaseConnector()
 
+    '''
     # List the tables in the connected AWS RDS database
-    #db_connector.list_db_tables()
+    db_connector.list_db_tables()
 
-    # Proceed with data cleaning of AWS RDS
-    #cleaner = DataCleaning()
-    #cleaned_data = cleaner.clean_data()
+    # Proceed with data cleaning of AWS RDS (user data)
+    cleaner = DataCleaning()
+    cleaned_data = cleaner.clean_data()
+    '''
 
-    # Read data from PDF using DataExtractor
-    '''ext = DataExtractor()
+    
+    # Read card data from PDF using DataExtractor
+    '''
+    ext = DataExtractor()
     pdf_link = "https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf"
     pdf_data = ext.retrieve_pdf_data(pdf_link)
 
     cleaned_card_data = cleaner.clean_card_data(pdf_data)
-    print(cleaned_card_data)'''
+    print(cleaned_card_data)
+    '''
 
-    '''try:
+    '''
+    try:
         cleaned_card_data.to_excel('output_card_data.xlsx', index=True)
         print("Card data output written to 'output_card_data.xlsx'")
     except Exception as e:
-        print(f"Error writing card data output to Excel: {e}")'''
+        print(f"Error writing card data output to Excel: {e}")
+    '''
 
 
     # convert RDS pandas file to to excel to view
-    '''try:
+    '''
+    try:
         cleaned_data.to_excel('output_final.xlsx', index=True)
         print("Output written to 'output_final.xlsx'")
     except Exception as e:
-        print(f"Error writing output to Excel: {e}")'''
+        print(f"Error writing output to Excel: {e}")
+    '''
 
     # Upload to PostgreSQL database
-    '''print("uploading")
+    # edit as needed
+    
+    '''
+    print("uploading")
     table_name = 'dim_card_details'
     db_connector.upload_db(cleaned_card_data, table_name)
-    print(f"Data uploaded to {table_name} in PostgreSQL database.")'''
+    print(f"Data uploaded to {table_name} in PostgreSQL database.")
+    '''
 
     # pull number of stores from api (451 stores) may only be 450 due to indexing
-    '''data_extractor = DataExtractor()
+    '''
+    data_extractor = DataExtractor()
     api_key = 'yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX'
     header_dict = {'x-api-key': api_key}
     number_of_stores_endpoint = 'https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/number_stores'
@@ -54,9 +70,12 @@ if __name__ == "__main__":
     if result is not None:
         print(f"Number of stores: {result}")
     else:
-        print("Failed to retrieve the number of stores.")'''
+        print("Failed to retrieve the number of stores.")
     '''
-    #extract store data + clean
+    
+
+    # extract store data from API + clean + upload
+    '''
     data_extractor = DataExtractor()
     cleaner = DataCleaning()
     api_key = 'yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX'
@@ -85,18 +104,20 @@ if __name__ == "__main__":
     else:
         print("Failed to retrieve stores data.")
 
-
+    #Export to Excel
     cleaned_store_df.to_excel('stores.xlsx', index=True)
     print("Output written to 'stores.xlsx'")
 
     print("uploading")
     table_name = 'dim_store_details'
     db_connector.upload_db(cleaned_store_df, table_name)
-    print(f"Data uploaded to {table_name} in PostgreSQL database.")'''
+    print(f"Data uploaded to {table_name} in PostgreSQL database.")
+    
+    '''
 
-
-    #s3 product extraction and clean
-    '''data_extractor = DataExtractor()
+    # s3 product data extraction and clean
+    '''
+    data_extractor = DataExtractor()
     cleaner = DataCleaning()
     s3_address = 's3://data-handling-public/products.csv'
 
@@ -108,12 +129,10 @@ if __name__ == "__main__":
     else:
         print("Failed to extract data from S3.")
 
-
     # Cleaning the prod data
     products_df = cleaner.clean_prod_data(products_df)
     print("Products DataFrame:")
-    print(products_df)
-    
+    print(products_df)    
         
     products_df.to_excel('prods.xlsx', index=True)
     print("Output written to 'prods.xlsx'")    
@@ -121,34 +140,33 @@ if __name__ == "__main__":
     print("uploading")
     table_name = 'dim_products'
     db_connector.upload_db(products_df, table_name)
-    print(f"Data uploaded to {table_name} in PostgreSQL database.")'''
-
-
-
-    # Assuming 'products_df' is the DataFrame containing product information
-    #cleaned_products_df = data_cleaner.convert_product_weights(products_df)
-
-    '''if products_df is not None:
+    print(f"Data uploaded to {table_name} in PostgreSQL database.")
+  
+    if products_df is not None:
         print("Cleaned Products DataFrame:")
         print(products_df)
         products_df.to_excel('prods.xlsx', index=True)
         print("Output written to 'prods.xlsx'")
 
     else:
-        print("Failed to convert product weights.") '''  
+        print("Failed to convert product weights.") 
+    
+    '''  
 
 
-    #ORDERS TABLE RDS EXTRACTIONS:
+    #orders_table AWS RDS Extraction/Clean/Upload:
+    #change table name arg in line 168 for diff table and then rename xlsx file name in 175/176 
+
     '''
+    # just to display time when running in terminal
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     print(f"Current time: {current_time}")
+
     extractor = DataExtractor()
     cleaner = DataCleaning()
     orders_df = extractor.read_rds_table('orders_table')
     print(type(orders_df))
     orders_df = cleaner.clean_order_data(orders_df)
-
-
     
     if orders_df is not None:
         print("Cleaned DataFrame:")
@@ -156,24 +174,25 @@ if __name__ == "__main__":
         orders_df.to_excel('orders.xlsx', index=True)
         print("Output written to 'orders.xlsx'")
 
+    # uploader    
     print("uploading")
     table_name = 'orders_table'
     df = orders_df
     db_connector.upload_db(df, table_name)
-    print(f"Data uploaded to {table_name} in PostgreSQL database.")'''
-
-    #date data from json:
+    print(f"Data uploaded to {table_name} in PostgreSQL database.")
     '''
-    #s3 product extraction and clean
+
+
+    #dim_date_times data from json:
+
+    '''
+    #product extraction and clean
     data_extractor = DataExtractor()
     cleaner = DataCleaning()
     json_url = 'https://data-handling-public.s3.eu-west-1.amazonaws.com/date_details.json'
 
     json_df = data_extractor.extract_json(json_url)
-
     
-
-
     # Cleaning the  data
     print("cleaning")
     json_df = cleaner.clean_json_data(json_df)
@@ -186,11 +205,14 @@ if __name__ == "__main__":
         json_df.to_excel('date_data.xlsx', index=True)
         print("Output written to 'date_data.xlsx'")
 
+    # uploader    
     print("uploading")
     table_name = 'dim_date_times'
     df = json_df
     db_connector.upload_db(df, table_name)
-    print(f"Data uploaded to {table_name} in PostgreSQL database.")'''
+    print(f"Data uploaded to {table_name} in PostgreSQL database.")
+
+    '''
 
 
     
