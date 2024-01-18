@@ -55,9 +55,9 @@ if __name__ == "__main__":
         print(f"Number of stores: {result}")
     else:
         print("Failed to retrieve the number of stores.")'''
-    
+    '''
     #extract store data + clean
-    '''data_extractor = DataExtractor()
+    data_extractor = DataExtractor()
     cleaner = DataCleaning()
     api_key = 'yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX'
     header_dict = {'x-api-key': api_key}
@@ -69,6 +69,9 @@ if __name__ == "__main__":
     if stores_data_df is not None:
         print("Original Stores Data:")
         print(stores_data_df)
+        stores_data_df.to_excel('stores_pre.xlsx', index=True)
+        print("Output written to 'excel")
+        
 
         # Cleaning the stores data
         cleaned_store_df = cleaner.clean_store_data(stores_data_df)
@@ -106,13 +109,13 @@ if __name__ == "__main__":
         print("Failed to extract data from S3.")
 
 
-        # Cleaning the prod data
+    # Cleaning the prod data
     products_df = cleaner.clean_prod_data(products_df)
     print("Products DataFrame:")
     print(products_df)
     
         
-    #products_df.to_excel('prods.xlsx', index=True)
+    products_df.to_excel('prods.xlsx', index=True)
     print("Output written to 'prods.xlsx'")    
 
     print("uploading")
@@ -136,7 +139,8 @@ if __name__ == "__main__":
 
 
     #ORDERS TABLE RDS EXTRACTIONS:
-    '''current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    '''
+    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     print(f"Current time: {current_time}")
     extractor = DataExtractor()
     cleaner = DataCleaning()
@@ -158,8 +162,8 @@ if __name__ == "__main__":
     db_connector.upload_db(df, table_name)
     print(f"Data uploaded to {table_name} in PostgreSQL database.")'''
 
-    #date data from S3:
-
+    #date data from json:
+    '''
     #s3 product extraction and clean
     data_extractor = DataExtractor()
     cleaner = DataCleaning()
@@ -186,7 +190,11 @@ if __name__ == "__main__":
     table_name = 'dim_date_times'
     df = json_df
     db_connector.upload_db(df, table_name)
-    print(f"Data uploaded to {table_name} in PostgreSQL database.")
+    print(f"Data uploaded to {table_name} in PostgreSQL database.")'''
 
 
     
+
+    
+        
+
