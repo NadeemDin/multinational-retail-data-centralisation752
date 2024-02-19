@@ -6,6 +6,10 @@ A Retail Data Integration and Warehousing Project:
 This project is designed to streamline the process of consolidating and centralising multinational retail-related data from diverse sources, enabling efficient data analysis and business insights. 
 The primary goal is to create a comprehensive and well-organized data repository that facilitates informed decision-making for retail businesses operating in multiple countries.
 
+in other words:
+
+This project is all about simplifying how retail data from around the world is handled. Imagine a big puzzle with data scattered everywhere - this project puts all those puzzle pieces together in one place, making it easier for businesses to understand what's going on in their stores across different countries. By using smart tools and techniques, like cleaning up messy data and putting it into a neat database, this project helps businesses make smarter decisions and stay ahead in the fast-paced world of retail. It's like giving businesses a supercharged magnifying glass to spot trends and opportunities they might have missed before!
+
 ## Project Overview
 In the ever-evolving landscape of the retail industry, businesses often deal with data scattered across different platforms and formats. This project addresses the challenges associated with data fragmentation by implementing a robust Extract, Transform, Load (ETL) process.
 The key components of the project include:
